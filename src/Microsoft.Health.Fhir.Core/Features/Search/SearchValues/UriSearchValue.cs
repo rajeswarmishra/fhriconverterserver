@@ -25,36 +25,28 @@ namespace Microsoft.Health.Fhir.Core.Features.Search.SearchValues
             Uri = uri;
         }
 
+        protected UriSearchValue()
+        {
+        }
+
         /// <summary>
         /// Gets the URI value.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1056:URI properties should not be strings", Justification = "Value is passed in from user")]
-        public string Uri { get; }
+        public string Uri { get; protected set; }
 
         /// <inheritdoc />
         public bool IsValidAsCompositeComponent => true;
 
-        /// <summary>
-        /// Parses the string value to an instance of <see cref="UriSearchValue"/>.
-        /// </summary>
-        /// <param name="s">The string to be parsed.</param>
-        /// <returns>An instance of <see cref="UriSearchValue"/>.</returns>
-        public static UriSearchValue Parse(string s)
-        {
-            EnsureArg.IsNotNullOrWhiteSpace(s, nameof(s));
-
-            return new UriSearchValue(s);
-        }
-
         /// <inheritdoc />
-        public void AcceptVisitor(ISearchValueVisitor visitor)
+        public virtual void AcceptVisitor(ISearchValueVisitor visitor)
         {
             EnsureArg.IsNotNull(visitor, nameof(visitor));
 
             visitor.Visit(this);
         }
 
-        public bool Equals([AllowNull] ISearchValue other)
+        public virtual bool Equals([AllowNull] ISearchValue other)
         {
             if (other == null)
             {

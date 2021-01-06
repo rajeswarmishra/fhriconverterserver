@@ -47,6 +47,11 @@ namespace Microsoft.Health.Fhir.SqlServer.Features.Storage
                 return GetSearchValueType(searchIndexEntry.SearchParameter);
             }
 
+            if (searchIndexEntry.Value is CanonicalSearchValue)
+            {
+                return GetSearchValueType(searchIndexEntry.SearchParameter);
+            }
+
             Type searchValueType = searchIndexEntry.Value.GetType();
 
             Debug.Assert(searchValueType == GetSearchValueType(searchIndexEntry.SearchParameter), "Getting the search value type from the search parameter produced a different result from calling searchValue.GetType()");

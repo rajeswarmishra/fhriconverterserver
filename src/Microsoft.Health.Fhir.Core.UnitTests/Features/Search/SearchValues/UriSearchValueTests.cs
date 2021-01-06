@@ -31,7 +31,7 @@ namespace Microsoft.Health.Fhir.Core.UnitTests.Features.Search.SearchValues
         [Fact]
         public void GivenANullString_WhenParsing_ThenExceptionShouldBeThrown()
         {
-            Assert.Throws<ArgumentNullException>(ParamNameS, () => UriSearchValue.Parse(null));
+            Assert.Throws<ArgumentNullException>(ParamNameS, () => CanonicalSearchValue.Parse(null));
         }
 
         [Theory]
@@ -39,7 +39,7 @@ namespace Microsoft.Health.Fhir.Core.UnitTests.Features.Search.SearchValues
         [InlineData("    ")]
         public void GivenAnInvalidString_WhenParsing_ThenExceptionShouldBeThrown(string s)
         {
-            Assert.Throws<ArgumentException>(ParamNameS, () => UriSearchValue.Parse(s));
+            Assert.Throws<ArgumentException>(ParamNameS, () => CanonicalSearchValue.Parse(s));
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Microsoft.Health.Fhir.Core.UnitTests.Features.Search.SearchValues
         {
             string expected = "http://uri2";
 
-            UriSearchValue value = UriSearchValue.Parse(expected);
+            UriSearchValue value = CanonicalSearchValue.Parse(expected);
 
             Assert.NotNull(value);
             Assert.Equal(expected, value.Uri);

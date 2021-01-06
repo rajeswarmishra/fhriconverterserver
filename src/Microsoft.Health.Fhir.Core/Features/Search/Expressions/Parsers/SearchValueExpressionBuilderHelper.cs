@@ -308,6 +308,23 @@ namespace Microsoft.Health.Fhir.Core.Features.Search.Expressions
                     ThrowModifierNotSupported();
                     break;
             }
+
+            if (uri is CanonicalSearchValue canonicalSearchValue && canonicalSearchValue.IsCanonicalValue)
+            {
+                var canonicalSearchExpressions = new List<Expression> { _outputExpression };
+
+                if (!string.IsNullOrEmpty(canonicalSearchValue.Version))
+                {
+                    canonicalSearchExpressions.Add(Expression.Equals(FieldName.UriVersion, _componentIndex, canonicalSearchValue.Version));
+                }
+
+                if (!string.IsNullOrEmpty(canonicalSearchValue.Fragment))
+                {
+                    canonicalSearchExpressions.Add(Expression.Equals(FieldName.UriFragment, _componentIndex, canonicalSearchValue.Fragment));
+                }
+
+                _outputExpression = Expression.And(canonicalSearchExpressions.ToArray());
+            }
         }
 
         private void EnsureOnlyEqualComparatorIsSupported()
